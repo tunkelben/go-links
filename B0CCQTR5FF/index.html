@@ -14,8 +14,17 @@
 <meta property="og:url" content="https://go.israelisbuyspain.com/B0CCQTR5FF">
 <!-- JS-only redirect (no meta refresh): preview crawlers don't run JS, so
      they stay here and read the OG card; some of them DO follow a meta
-     refresh, which would leak the preview to Amazon's generic card. -->
-<script>location.replace("https://www.amazon.es/dp/B0CCQTR5FF/?tag=israelisbuysp-21");</script>
+     refresh, which would leak the preview to Amazon's generic card.
+     WhatsApp's own preview crawler DOES appear to execute this script
+     (caught a Galaxy S25+ share showing Amazon's own English title,
+     2026-07-23) - skip the redirect for known bot user-agents so they
+     stay here and read our OG card instead of following through to
+     Amazon's page. Real users (no matching UA) redirect immediately. -->
+<script>
+if (!/facebookexternalhit|Facebot|WhatsApp|TelegramBot|Twitterbot|LinkedInBot|Slackbot|Discordbot/i.test(navigator.userAgent || '')) {
+  location.replace("https://www.amazon.es/dp/B0CCQTR5FF/?tag=israelisbuysp-21");
+}
+</script>
 </head>
 <body style="font-family:sans-serif;text-align:center;padding-top:3em">
 <p>מעבירים אתכם לאמזון ספרד...</p>
