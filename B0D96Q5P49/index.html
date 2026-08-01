@@ -15,14 +15,19 @@
 <!-- JS-only redirect (no meta refresh): preview crawlers don't run JS, so
      they stay here and read the OG card; some of them DO follow a meta
      refresh, which would leak the preview to Amazon's generic card.
-     WhatsApp's own preview crawler DOES appear to execute this script
-     (caught a Galaxy S25+ share showing Amazon's own English title,
-     2026-07-23) - skip the redirect for known bot user-agents so they
-     stay here and read our OG card instead of following through to
-     Amazon's page. Real users (no matching UA) redirect immediately. -->
+     The UA-skip below (added 2026-07-23) didn't fix a recurrence on the
+     Kärcher steam-cleaner deal, 2026-07-27 - live page verified correct
+     (right Hebrew title/OG tags, skip script present) yet WhatsApp still
+     showed Amazon's English title, meaning its crawler likely spoofs a
+     normal browser UA rather than identifying itself. Added a delay on
+     top as a second layer: a fast OG-scraping crawler that parses the
+     initial HTML (no JS wait) never sees the redirect fire; a real user
+     still lands on amazon.es, just ~2s later than instant. Not guaranteed
+     either - if WhatsApp's renderer waits for network-idle/onload past
+     this delay, it will still follow through. -->
 <script>
 if (!/facebookexternalhit|Facebot|WhatsApp|TelegramBot|Twitterbot|LinkedInBot|Slackbot|Discordbot/i.test(navigator.userAgent || '')) {
-  location.replace("https://www.amazon.es/dp/B0D96Q5P49/?tag=israelisbuysp-21");
+  setTimeout(function() { location.replace("https://www.amazon.es/dp/B0D96Q5P49/?tag=israelisbuysp-21"); }, 2000);
 }
 </script>
 </head>
